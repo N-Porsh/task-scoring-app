@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="section">
+    <div class="container">
+        <table class="table is-striped is-hoverable">
+            <thead>
+            <tr>
+                <th>Client ID</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Scoring</th>
+                <th>Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>Smith</td>
+                <td>30</td>
+                <td><input type="button" data-id="1" onclick="viewClientPage(this);" class="button is-info" value="View/Edit"></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Jack</td>
+                <td>Black</td>
+                <td>40</td>
+                <td><input type="button" data-id="2" onclick="viewClientPage(this);" class="button is-info" value="View/Edit"></td>
+            </tr>
+            </tbody>
+        </table>
+        {% include './components/pagination.html.twig' %}
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {#{{ parent() }}#}
+    <script>
+        function viewClientPage(d) {
+            const clientId = d.getAttribute("data-id");
+            //location.href = `/client?id=${clientId}`;
+            location.href = `/clients/${clientId}`;
+        }
+    </script>
+{% endblock %}

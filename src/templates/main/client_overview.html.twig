@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="section">
+    <div class="container">
+
+        <h3 class="title">Client ID: {{ clientId }}</h3>
+
+        <div class="columns">
+            <div class="column is-half">
+                <div class="field">
+                    <label class="label">Имя</label>
+                    <div class="control">
+                        <input class="input" type="text">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Фамилия</label>
+                    <div class="control">
+                        <input class="input" type="text">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Телефон</label>
+                    <div class="control">
+                        <input class="input" type="text">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Э-почта</label>
+                    <div class="control">
+                        <input class="input" type="text">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Образование</label>
+                    <div class="control">
+                        <div class="select">
+                            <select>
+                                <option>Среднее образование</option>
+                                <option>Специальное образование</option>
+                                <option>Высшее образование</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button class="button is-link">Save</button>
+                    </div>
+                    <div class="control">
+                        <button class="button is-link is-light">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
