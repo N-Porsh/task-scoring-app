@@ -4,9 +4,9 @@ COPY wait-for-it.sh /usr/bin/wait-for-it
 
 RUN chmod +x /usr/bin/wait-for-it
 
-RUN apk --update --no-cache add bash wget git && rm -rf /var/cache/apk/*
+RUN apk --update --no-cache add bash wget icu-dev && rm -rf /var/cache/apk/*
 
-RUN docker-php-ext-install pdo_mysql opcache
+RUN docker-php-ext-install pdo_mysql opcache intl
 
 ARG XDEBUG_VERSION=2.9.4
 RUN set -eux; \

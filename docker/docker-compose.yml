@@ -26,7 +26,9 @@ services:
       - APP_SECRET=${APP_SECRET}
       - DATABASE_URL=mysql://${DATABASE_USER}:${DATABASE_PASSWORD}@database:3306/${DATABASE_NAME}?serverVersion=5.7
     volumes:
-      - ../src:/var/www
+      - ../src:/var/www:delegated
+    ports:
+      - "9000:9000"
 
   nginx:
     build:

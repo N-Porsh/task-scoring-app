@@ -3,35 +3,35 @@
 <div class="section">
     <div class="container">
 
-        <h3 class="title">Client ID: {{ clientId }}</h3>
+        <h3 class="title">Client ID: {{ client.id }}</h3>
 
         <div class="columns">
             <div class="column is-half">
                 <div class="field">
                     <label class="label">Имя</label>
                     <div class="control">
-                        <input class="input" type="text">
+                        <input class="input" type="text" value="{{ client.name }}">
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="label">Фамилия</label>
                     <div class="control">
-                        <input class="input" type="text">
+                        <input class="input" type="text" value="{{ client.surname }}">
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="label">Телефон</label>
                     <div class="control">
-                        <input class="input" type="text">
+                        <input class="input" type="text" value="{{ client.phone }}">
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="label">Э-почта</label>
                     <div class="control">
-                        <input class="input" type="text">
+                        <input class="input" type="text" value="{{ client.email }}">
                     </div>
                 </div>
 
