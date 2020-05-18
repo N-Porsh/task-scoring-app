@@ -1,88 +1,22 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div class="section">
-        <div class="container">
-            <div class="columns">
-                <div class="column is-half">
-                    <div class="field">
-                        <label class="label">Имя</label>
-                        <div class="control">
-                            <input class="input" type="text" placeholder="Текстовое поле">
-                        </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10 col-md-6 col-lg-4">
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
                     </div>
+                {% endfor %}
 
-                    <div class="field">
-                        <label class="label">Фамилия</label>
-                        <div class="control">
-                            <input class="input" type="text" placeholder="Текстовое поле">
-                        </div>
-                    </div>
 
-                    <div class="field">
-                        <div class="label">Телефон</div>
-                        <div class="field-body">
-                            <div class="field is-expanded">
-                                <div class="field has-addons">
-                                    <p class="control">
-                                        <a class="button is-static">
-                                            +7
-                                        </a>
-                                    </p>
-                                    <p class="control is-expanded">
-                                        <input class="input" type="tel" placeholder="Номер телефона">
-                                    </p>
-                                </div>
-                                <p class="help">Не вводить код страны</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Э-почта</label>
-                        <div class="control has-icons-left has-icons-right">
-                            <input class="input is-danger" type="email" placeholder="Е-майл">
-                            <span class="icon is-small is-left">
-                        <i class="fas fa-envelope"></i>
-                    </span>
-                            <span class="icon is-small is-right">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </span>
-                        </div>
-                        <p class="help is-danger">Неправильный е-майл</p>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Образование</label>
-                        <div class="control">
-                            <div class="select">
-                                <select>
-                                    <option>Среднее образование</option>
-                                    <option>Специальное образование</option>
-                                    <option>Высшее образование</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <div class="control">
-                            <label class="checkbox">
-                                <input type="checkbox">
-                                Я даю согласие на обработку моих личных данных
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <div class="control">
-                            <button class="button is-link">Submit</button>
-                        </div>
-                    </div>
-
-                </div>
+                {{ form_start(clientForm) }}
+                {{ form_widget(clientForm) }}
+                <button type="submit" class="btn btn-primary">Зарегистрировать</button>
+                {{ form_end(clientForm) }}
             </div>
 
-
         </div>
+
     </div>
 {% endblock %}

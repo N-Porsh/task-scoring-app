@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class EducationFixtures extends Fixture
 {
-    private static $educationOptions = [
+    public static $educationOptions = [
         "Среднее Образование",
         "Специальное образование",
         "Высшее образование"
@@ -16,11 +16,12 @@ class EducationFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        foreach (self::$educationOptions as $value) {
+        //todo: remove
+/*        foreach (self::$educationOptions as $value) {
             $education = new Education();
             $education->setValue($value);
             $manager->persist($education);
         }
-        $manager->flush();
+        $manager->flush();*/
     }
 }

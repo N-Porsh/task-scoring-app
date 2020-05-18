@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ClientRepository")
@@ -21,21 +22,39 @@ class Client
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank()
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank()
      */
     private $surname;
 
     /**
      * @ORM\Column(type="string", length=128, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email."
+     * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=32)
+     * @Assert\NotBlank()
+     * @Assert\Type(
+     *     type="numeric",
+     *     message="The value {{ value }} is not a number {{ type }}."
+     * )
+     * @Assert\Length(
+     *      min = 11,
+     *      max = 32,
+     *      minMessage = "Your phone number must be at least {{ limit }} characters long",
+     *      maxMessage = "Your phone number cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
      */
     private $phone;
 
@@ -45,9 +64,11 @@ class Client
     private $processData;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Education")
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
-    private $educationId;
+    private $education;
 
     public function getId(): ?int
     {
@@ -114,14 +135,14 @@ class Client
         return $this;
     }
 
-    public function getEducationId(): ?int
+    public function getEducation(): ?Education
     {
-        return $this->educationId;
+        return $this->education;
     }
 
-    public function setEducationId(int $educationId): self
+    public function setEducation(?Education $education): self
     {
-        $this->educationId = $educationId;
+        $this->education = $education;
 
         return $this;
     }

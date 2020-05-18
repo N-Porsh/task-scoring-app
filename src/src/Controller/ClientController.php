@@ -5,11 +5,15 @@ namespace App\Controller;
 
 
 use App\Entity\Client;
+use App\Entity\Score;
+use App\Form\ClientFormType;
 use App\Repository\ClientRepository;
+use App\Repository\EducationRepository;
+use App\Service\ScoringEngine;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /** @Route("/clients") */
@@ -17,11 +21,13 @@ class ClientController extends AbstractController
 {
     private $em;
     private $logger;
+    private $scoring;
 
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, ScoringEngine $scoringEngine)
     {
         $this->em = $entityManager;
         $this->logger = $logger;
+        $this->scoring = $scoringEngine;
     }
 
 
@@ -30,53 +36,39 @@ class ClientController extends AbstractController
     {
         //$repository = $this->em->getRepository(Client::class);
         //$clients = $repository->findAll();
-
         $clients = $repository->findBy([], ['createdAt' => 'DESC']);
         return $this->render('main/clients.html.twig', ["clients" => $clients]);
     }
 
-
-    /** @Route("/{clientId<\d+>}", name="client_overview_page", methods={"GET"}) */
-    public function client($clientId)
+    /** @Route("/{id<\d+>}", name="client_overview_page") */
+    public function edit(Client $client, Request $request, EducationRepository $educationRepository , ScoringEngine $scoringEngine)
     {
-        $repository = $this->em->getRepository(Client::class);
-        $client = $repository->find($clientId);
-        if (!$client) {
-            $this->logger->info("Client not found", [$clientId]);
-            throw $this->createNotFoundException(sprintf('No client with id "%d"', $clientId));
+        $form = $this->createForm(ClientFormType::class, $client);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Client $client */
+            $client = $form->getData();
+            $this->em->persist($client);
+            $this->em->flush();
+
+            $scoringEngine->calculate($client);
+
+            $this->addFlash('success', 'Client updated!');
+            $this->redirectToRoute('client_overview_page',  [
+                'id' => $client->getId()
+            ]);
         }
 
-        return $this->render('main/client_overview.html.twig', ["client" => $client]);
-    }
+        $educationOptions = $educationRepository->findAll();
+        $scoreRepository = $this->em->getRepository(Score::class);
+        $score = $scoreRepository->findOneBy(['clientId' => $client->getId()]);
 
-    /** @Route("/", methods={"POST"}) */
-    public function new()
-    {
-        die("todo");
-        //$email = "test@test.com"; // from form
-/*        $repository = $this->em->getRepository(Client::class);
-        $repository->findOneBy(['email' => $email]);*/
-
-        $client = new Client();
-        $client->setName("Jane")
-            ->setSurname("Doe")
-            ->setEmail("test2@mail.com")
-            ->setPhone("55555513213")
-            ->setEducationId(2)
-            ->setProcessData(true);
-
-        $this->em->persist($client);
-        $this->em->flush();
-
-        return $this->json(["data" => $client]);
-        //return new JsonResponse(['hearts' => rand(5, 100)]);
-
-    }
-
-    public function update(Client $client)
-    {
-        $client->setEmail("update@mail.com");
-        $this->em->flush();
-        return new JsonResponse(['client' => $client]);
+        return $this->render('main/client_overview.html.twig', [
+            'clientForm' => $form->createView(),
+            "client" => $client,
+            'score' => $score,
+            "educationOptions" => $educationOptions
+        ]);
     }
 }
