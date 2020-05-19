@@ -16,15 +16,8 @@
                 {{ form_start(clientForm) }}
                 {{ form_widget(clientForm) }}
                 <button type="submit" class="btn btn-primary">Обновить</button>
-                <button type="button" class="btn btn-secondary">Отменить</button>
                 {{ form_end(clientForm) }}
             </div>
         </div>
     </div>
-
-{#    <select>
-        {% for education in educationOptions %}
-            <option value="{{ education.id }}" {% if education.id == client.education.id  %} selected="selected" {% endif %}>{{ education.value }}</option>
-        {% endfor %}
-    </select>#}
 {% endblock %}

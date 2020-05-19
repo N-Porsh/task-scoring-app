@@ -17,6 +17,7 @@ class Client
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
      */
     private $id;
 
@@ -69,6 +70,23 @@ class Client
      * @Assert\NotBlank()
      */
     private $education;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Score", mappedBy="client")
+     */
+    private $score;
+
+    public function getScore(): ?Score
+    {
+        return $this->score;
+    }
+
+    public function setScore(Score $score): self
+    {
+        $this->score = $score;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {

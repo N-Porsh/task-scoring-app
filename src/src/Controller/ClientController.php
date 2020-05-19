@@ -11,6 +11,7 @@ use App\Repository\ClientRepository;
 use App\Repository\EducationRepository;
 use App\Service\ScoringEngine;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,16 +33,20 @@ class ClientController extends AbstractController
 
 
     /** @Route("/", name="clients_view_page") */
-    public function index(ClientRepository $repository)
+    public function index(Request $request, ClientRepository $repository, PaginatorInterface $paginator)
     {
-        //$repository = $this->em->getRepository(Client::class);
-        //$clients = $repository->findAll();
-        $clients = $repository->findBy([], ['createdAt' => 'DESC']);
+        $clientsQuery = $repository->getAllClientsQuery();
+        $clients = $paginator->paginate(
+            $clientsQuery,
+            $request->query->getInt('page', 1),
+            5
+        );
+
         return $this->render('main/clients.html.twig', ["clients" => $clients]);
     }
 
     /** @Route("/{id<\d+>}", name="client_overview_page") */
-    public function edit(Client $client, Request $request, EducationRepository $educationRepository , ScoringEngine $scoringEngine)
+    public function edit(Client $client, Request $request, EducationRepository $educationRepository, ScoringEngine $scoringEngine)
     {
         $form = $this->createForm(ClientFormType::class, $client);
         $form->handleRequest($request);
@@ -55,14 +60,14 @@ class ClientController extends AbstractController
             $scoringEngine->calculate($client);
 
             $this->addFlash('success', 'Client updated!');
-            $this->redirectToRoute('client_overview_page',  [
+            $this->redirectToRoute('client_overview_page', [
                 'id' => $client->getId()
             ]);
         }
 
         $educationOptions = $educationRepository->findAll();
         $scoreRepository = $this->em->getRepository(Score::class);
-        $score = $scoreRepository->findOneBy(['clientId' => $client->getId()]);
+        $score = $scoreRepository->findOneBy(['client' => $client->getId()]);
 
         return $this->render('main/client_overview.html.twig', [
             'clientForm' => $form->createView(),

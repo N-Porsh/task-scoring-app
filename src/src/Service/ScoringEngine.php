@@ -56,13 +56,14 @@ class ScoringEngine
     public function calculate(Client $client)
     {
         $scoreRepository = $this->em->getRepository(Score::class);
-        $score = $scoreRepository->findOneBy(['clientId' => $client->getId()]);
+        $score = $scoreRepository->findOneBy(['client' => $client]);
         if (!$score) {
             $score = new Score();
         }
 
         $this->client = $client;
-        $score->setClientId($client->getId());
+        $score->setClient($client);
+        $this->logger->info(sprintf("Calculating score for Client ID: %d", [$client->getId()]));
         $this->calculateAllPoints();
         $score->setResult($this->getScorePoints());
         $this->em->persist($score);

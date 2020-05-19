@@ -24,6 +24,7 @@ class RegistrationController extends AbstractController
         $this->logger = $logger;
         $this->scoring = $scoringEngine;
     }
+
     /** @Route("/", name="registration_view_page") */
     public function index(EntityManagerInterface $em, Request $request, ScoringEngine $scoringEngine)
     {
@@ -37,9 +38,8 @@ class RegistrationController extends AbstractController
             $em->flush();
 
             $scoringEngine->calculate($client);
-
+            $this->logger->info("new client registered");
             $this->addFlash('success', 'Client registered!');
-            unset($request);
             $this->redirectToRoute('registration_view_page');
         }
 

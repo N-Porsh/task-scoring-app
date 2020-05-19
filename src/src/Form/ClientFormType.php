@@ -17,21 +17,16 @@ class ClientFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            // options in profiler
             ->add('name', null, ['label' => 'Имя'])
-            ->add('surname', null,['label' => 'Фамилия'])
-            ->add('phone', null, ['help' => 'Не вводить код страны', 'label' => 'Телефон', 'attr'=> ['placeholder' => 'Прим: 92557556983']])
+            ->add('surname', null, ['label' => 'Фамилия'])
+            ->add('phone', null, ['help' => 'Не вводить код страны', 'label' => 'Телефон', 'attr' => ['placeholder' => 'Прим: 92557556983']])
             ->add('email', EmailType::class, ['label' => 'Е-майл'])
             ->add('education', EntityType::class, [
                 'class' => Education::class,
                 'label' => 'Образование',
                 'placeholder' => "Выберите образование",
                 'invalid_message' => 'Неправильное значение!'
-//                'choice_label' => function(Education $client) {
-//                    return sprintf('(%d) %s', $client->getId(), $client->getValue());
-//                }
             ])
-            //->add('createdAt', null, ['widget' => 'single_text'])
             ->add('processData', null, ['label' => 'Я даю согласие на обработку моих личных данных']);
     }
 

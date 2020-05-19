@@ -28,12 +28,10 @@ class ClientFixtures extends BaseFixture
         $manager->flush();
 
         $this->createMany(Client::class, 50, function (Client $client) use ($manager, $educationArray) {
-
-
             $client->setName($this->faker->firstName)
                 ->setSurname($this->faker->lastName)
                 ->setEmail($this->faker->userName . '@' . $this->faker->randomElement(self::$emailDomains))
-                ->setPhone(7 . rand(1000000000, 9999999999))
+                ->setPhone(7 . rand(9000000000, 9999999999))
                 ->setEducation($this->faker->randomElement($educationArray))
                 ->setProcessData($this->faker->boolean(80));
         });

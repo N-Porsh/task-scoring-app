@@ -20,30 +20,19 @@ class Score
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $clientId;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $result;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Client", inversedBy="score", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $client;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getClientId(): ?int
-    {
-        return $this->clientId;
-    }
-
-    public function setClientId(int $clientId): self
-    {
-        $this->clientId = $clientId;
-
-        return $this;
     }
 
     public function getResult(): ?int
@@ -54,6 +43,18 @@ class Score
     public function setResult(?int $result): self
     {
         $this->result = $result;
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(Client $client): self
+    {
+        $this->client = $client;
 
         return $this;
     }

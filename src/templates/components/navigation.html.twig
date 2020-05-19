@@ -1,38 +1,7 @@
-{#
-<div class="container">
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="#">
-                <img src="{{ asset('img/logo.png') }}" width="112" height="28">
-            </a>
-
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-               data-target="navbar-task">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
-
-        <div id="navbar-task" class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item" href="{{ path('registration_view_page') }}">
-                    Регистрация
-                </a>
-
-                <a class="navbar-item" href="{{ path('clients_view_page') }}">
-                    Клиенты
-                </a>
-            </div>
-        </div>
-    </nav>
-</div>
-#}
-
-
 <nav class="navbar navbar-expand fixed-top navbar-dark bg-dark">
     <img src="{{ asset('img/logo.png') }}" width="112" height="28">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02"
+            aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
