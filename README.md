@@ -2,16 +2,18 @@
 
 ### Installation
 
-1. clone repository
-2. go to the cloned projects root directory in terminal
-3. `cd docker`
-4. `docker-compose up -d`
-5. Once everything is installed, you will need to wait about 1-3 minutes(depends on the machine) to start the servers work properly
-6. navigate to: `http://localhost`. Works on port 80 - so make sure the port is not busy. 
+1. Start in terminal: `git clone https://github.com/N-Porsh/task-scoring-app.git`
+2. `cd task-scoring-app/docker`
+3. `docker-compose up -d`
+4. Once everything is installed, you will need to wait about 1-3 minutes(depends on the machine) to start the servers work properly
+5. `docker-compose run php-fpm bin/console doctrine:fixtures:load`
+5. navigate to: `http://localhost`. Works on port 80 - so make sure the port is not busy.
 
-## Compose
+NB! `502 Bad Gateway` ? - Just wait more time until everything is started (3 minutes in my case) 
 
-### PHP (PHP-FPM)
+### Compose
+
+#### PHP (PHP-FPM)
 
 Composer is included
 
@@ -26,7 +28,7 @@ docker-compose run php-fpm bin/console doctrine:fixtures:load
 ```
 
 
-### Console Command
+#### Console Command
 Options:
 
 1. `php bin/console calculate-credit-score`
