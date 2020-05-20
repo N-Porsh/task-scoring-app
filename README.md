@@ -31,6 +31,6 @@ docker-compose run php-fpm bin/console doctrine:fixtures:load
 #### Console Command
 Options:
 
-1. `php bin/console calculate-credit-score`
-2. `php bin/console calculate-credit-score 1` - {clientID}
+1. `docker-compose run php-fpm bin/console calculate-credit-score`
+2. `docker-compose run php-fpm bin/console calculate-credit-score 1` - {clientID}
 
