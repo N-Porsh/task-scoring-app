@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Client;
+use App\Entity\Score;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -24,6 +25,29 @@ class ClientRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->orderBy('c.createdAt', 'DESC')
             ->getQuery();
+    }
+
+
+    public function getAllClientsArray()
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.id', 'c.email', 's.result')
+            ->innerJoin(Score::class, 's', 'with', 's.client = c.id')
+            ->orderBy('c.id')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    public function getClientAsArray($clientId)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.id', 'c.email', 's.result')
+            ->innerJoin(Score::class, 's', 'with', 's.client = c.id')
+            ->andWhere('c.id = :val')
+            ->setParameter('val', $clientId)
+            ->orderBy('c.id')
+            ->getQuery()
+            ->getArrayResult();
     }
 
     // /**

@@ -4,10 +4,15 @@ namespace App\Entity;
 
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ClientRepository")
+ * @UniqueEntity(
+ *     fields={"email"},
+ *     message="This email is already used"
+ * )
  */
 class Client
 {

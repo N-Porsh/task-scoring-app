@@ -10,13 +10,19 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
+/**
+ * Calculates credit score for client and saves it in "Score" db table
+ *
+ * Class ScoringEngine
+ * @package App\Service
+ */
 class ScoringEngine
 {
     private $logger;
     private $em;
     /** @var Client */
     private $client;
-    private $scorePoints = 0;
+    private $scorePoints;
 
     private static $operatorCode = [
         "mts" => [910, 915, 916, 917, 919, 985, 986],
@@ -47,12 +53,20 @@ class ScoringEngine
         0 => 0
     ];
 
+    /**
+     * ScoringEngine constructor.
+     * @param EntityManagerInterface $entityManager
+     * @param LoggerInterface $logger
+     */
     public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
     {
         $this->em = $entityManager;
         $this->logger = $logger;
     }
 
+    /**
+     * @param Client $client
+     */
     public function calculate(Client $client)
     {
         $scoreRepository = $this->em->getRepository(Score::class);
@@ -72,6 +86,7 @@ class ScoringEngine
 
     private function calculateAllPoints(): void
     {
+        $this->resetPoints();
         $this->calculateEmailDomainPoints();
         $this->calculateEducationPoints();
         $this->calculateDataProcessPoints();
@@ -150,9 +165,14 @@ class ScoringEngine
     /**
      * @return int
      */
-    protected function getScorePoints(): int
+    public function getScorePoints(): int
     {
         return $this->scorePoints;
+    }
+
+    private function resetPoints(): void
+    {
+        $this->scorePoints = 0;
     }
 
 }
